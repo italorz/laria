@@ -12,7 +12,6 @@ import {
     Search,
     Sparkles,
     Undo2,
-    Upload,
     X,
 } from 'lucide-vue-next';
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
@@ -295,7 +294,15 @@ function startOver() {
 <template>
     <Head title="Criar" />
     <LariaLayout>
-        <input ref="fileInput" type="file" accept="image/*" class="hidden" @change="onFileChosen" />
+        <!-- capture="environment": no celular abre a câmera traseira direto, sem galeria -->
+        <input
+            ref="fileInput"
+            type="file"
+            accept="image/*"
+            capture="environment"
+            class="hidden"
+            @change="onFileChosen"
+        />
 
         <!-- Passo 1: escolher foto -->
         <div v-if="step === 'pick'" class="flex flex-col items-center gap-4 px-6 pt-20 text-center">
@@ -304,7 +311,7 @@ function startOver() {
             </span>
             <h2 class="text-xl font-bold">Nova criação</h2>
             <p class="max-w-sm text-black/55">
-                Escolha uma foto, pinte o elemento que quer trocar e vincule um produto da internet.
+                Tire uma foto, pinte o elemento que quer trocar e vincule um produto da internet.
                 A IA gera a nova imagem trocando apenas o que você marcou.
             </p>
             <button
@@ -312,8 +319,8 @@ function startOver() {
                 class="mt-2 flex items-center gap-2 rounded-2xl bg-lavender px-8 py-3.5 font-semibold text-white shadow-sm transition hover:bg-lavender-deep"
                 @click="pickFile"
             >
-                <Upload class="h-5 w-5" />
-                Escolher foto
+                <Camera class="h-5 w-5" />
+                Tirar foto
             </button>
         </div>
 
@@ -343,7 +350,7 @@ function startOver() {
                     <button
                         type="button"
                         class="rounded-full p-2 text-black/60 transition hover:bg-lavender-tint"
-                        title="Trocar foto"
+                        title="Tirar outra foto"
                         @click="pickFile"
                     >
                         <Camera class="h-5 w-5" />
