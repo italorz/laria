@@ -1,0 +1,11 @@
+{
+  "name": "laria-scraper",
+  "private": true,
+  "type": "module",
+  "description": "Scraper de páginas de produto (Puppeteer + stealth) chamado pelo Laravel via processo.",
+  "dependencies": {
+    "puppeteer": "^24.0.0",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2"
+  }
+}
