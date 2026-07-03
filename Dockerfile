@@ -4,13 +4,25 @@
 # PHP-FPM + nginx + fila (supervisor) + Node/Chromium para o scraper Puppeteer.
 
 ############################################
-# Stage 1 — build dos assets Vite (Node)
+# Stage 1 — vendor do Composer (só p/ o build do Vite,
+# que importa o Ziggy de vendor/tightenco/ziggy)
+############################################
+FROM composer:2 AS vendor
+WORKDIR /app
+COPY composer.json composer.lock ./
+RUN composer install --no-dev --no-scripts --no-autoloader \
+        --prefer-dist --no-interaction --ignore-platform-reqs
+
+############################################
+# Stage 2 — build dos assets Vite (Node)
 ############################################
 FROM node:22-bookworm-slim AS assets
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
 COPY . .
+# O Vite resolve `../../vendor/tightenco/ziggy` a partir do app.ts.
+COPY --from=vendor /app/vendor ./vendor
 RUN npm run build
 
 ############################################
