@@ -2,13 +2,11 @@ import { onMounted, ref } from 'vue';
 
 type Appearance = 'light' | 'dark' | 'system';
 
-export function updateTheme(value: Appearance) {
-    if (value === 'system') {
-        const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-        document.documentElement.classList.toggle('dark', systemTheme === 'dark');
-    } else {
-        document.documentElement.classList.toggle('dark', value === 'dark');
-    }
+export function updateTheme(_value: Appearance) {
+    // Laria é light-only (tema lavanda). Ignoramos qualquer preferência de dark
+    // mode: no tema .dark o --primary vira branco (botões brancos) e os inputs
+    // ficam escuros, quebrando as telas. Mantemos sempre o tema claro.
+    document.documentElement.classList.remove('dark');
 }
 
 const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
